@@ -40,9 +40,9 @@ clean: .phony
 	rm -f *.a
 	cd test; rm -rf CMakeCache.txt  CMakeFiles  cmake_install.cmake Makefile CTestTestfile.cmake Testing test_log
 
-test: .phony
-	rm test/test_log
-	cmake test
+test: example
+	rm -f test/test_log
+	cd test; cmake .
 	make -C test test
 	echo "test log is contained in test/test_log"
 
