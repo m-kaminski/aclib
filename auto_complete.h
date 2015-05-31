@@ -14,43 +14,6 @@
 #ifndef __AUTO_COMPLETE_
 #define __AUTO_COMPLETE_
 
-/*
- * If you feel that you need more history entries, more possible completions
- * or longer commands, feel free to adjust following macros.
- *
- * Note that library holds static arrays of size:
- *  COMMANDLEN_MAX*MAX_NUM_COMPLETIONS*sizeof(int)
- *  and COMMANDLEN_MAX*MAX_NUM_HISTORY*sizeof(int)
- *
- * and thus if you'll increase these above common sense, memory footprint of
- * your program will grow substantially.
- */
-
-/**! maximum length of command */
-#define COMMANDLEN_MAX 4096
-
-/**! maximum number of possible completions */
-#define MAX_NUM_COMPLETIONS 2048
-
-/**! number of history entries */
-#define MAX_NUM_HISTORY 200
-
-
-/**
- * Add a string onto list of possible completions
- *
- * @param[in] compl a string to which text inserted may be expanded (in aclib lingo: availabe completion)
- */
-void init_completion(char*compl);
-
-/**
- * Helper routine - must be called after init_completion and before getline_complete.
- * - it sorts completions within internal tables of aclib.
- * if no new completions are added, there is no need to call this routine between calls to
- * getline_complete
- */
-void init_completions();
-
 /**
  * Reads command from standard input.
  * Returns null terminated string (not including newline character).
@@ -79,8 +42,56 @@ void init_completions();
 char *getline_complete(char *prompt);
 
 /**
+ * Add a string onto list of possible completions
+ *
+ * Don't add same string to table more than once. This routine won't detect it.
+ * completion search functions will probably work all right, but you will use more memory than
+ * you actually need. To check if completion exists (i.e. in application that periodically adds
+ * more completions to its table) use completion_exists routine.
+ *
+ * @param[in] compl a string to which text inserted may be expanded (in aclib lingo: availabe completion)
+ */
+void init_completion(char *compl);
+
+/**
+ * check if string given is within completion table
+ *
+ * @param[in] compl a string to be checked.
+ */
+int completion_exists(char *compl);
+
+/**
+ * Helper routine - must be called after init_completion and before getline_complete.
+ * - it sorts completions within internal tables of aclib.
+ * if no new completions are added, there is no need to call this routine between calls to
+ * getline_complete
+ */
+void init_completions();
+
+/**
  * Prints history to stdout.
  */
 void print_history();
+
+/*
+ * If you feel that you need more history entries, more possible completions
+ * or longer commands, feel free to adjust following macros.
+ *
+ * Note that library holds static arrays of size:
+ *  COMMANDLEN_MAX*MAX_NUM_COMPLETIONS*sizeof(int)
+ *  and COMMANDLEN_MAX*MAX_NUM_HISTORY*sizeof(int)
+ *
+ * and thus if you'll increase these above common sense, memory footprint of
+ * your program will grow substantially.
+ */
+
+/**! maximum length of command */
+#define COMMANDLEN_MAX 4096
+
+/**! maximum number of possible completions */
+#define MAX_NUM_COMPLETIONS 2048
+
+/**! number of history entries */
+#define MAX_NUM_HISTORY 200
 
 #endif

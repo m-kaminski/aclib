@@ -39,30 +39,6 @@ static int history[MAX_NUM_HISTORY][COMMANDLEN_MAX];
 static size_t total_history_entries = 0;
 static size_t last_history_entry = -1;
 
-
-/* main api function */
-void init_completion(char*compl)
-{
-	int i;
-	for (i = 0 ; compl[i]; ++i)
-		completions[current_num_completions][i]=compl[i];
-	completions[current_num_completions][i] = 0;
-	current_num_completions++;
-}
-
-/* helper for qsort*/
-int compl_lesscomp(const void *s1, const void *s2)
-{
-	return memcmp(s1, s2, COMMANDLEN_MAX);
-}
-
-/* main api function */
-void init_completions()
-{
-	qsort(completions, current_num_completions, sizeof(completions[0]),
-	      compl_lesscomp);
-}
-
 /**
  * global variable used for passing state to comparison functions
  * called by lfind etc.
@@ -81,6 +57,15 @@ int compl_neqcompar(const void *key, const void *s2)
 	return !memcmp(key, s2, memsize*4);
 }
 
+/**
+ * find first and last completion string iterator, that matches first <u>size</u>
+ * bytes from string given in parameter <u>begin</u>
+ *
+ * @param[in] begin string which we search for
+ * @param[in] size amount of characters to match
+ * @param[out] it_begin first match
+ * @param[out] it_end last match
+ */
 void compute_completion_ranges(int* begin, int size, int **it_begin, int **it_end)
 {
 	memsize=size;
@@ -464,6 +449,55 @@ char *getline_complete(char *prompt)
 	/* convert charset to output one */
 	trans_utf8(line_t, line);
 	return line_t;
+}
+
+/* main api function */
+void init_completion(char *compl)
+{
+	int i;
+	for (i = 0 ; compl[i]; ++i) {
+		if (i == TOKENLEN_MAX-1) {
+			break;
+		}
+		completions[current_num_completions][i]=compl[i];
+	}
+	completions[current_num_completions][i] = 0;
+	current_num_completions++;
+}
+
+/* helper for qsort*/
+int compl_lesscomp(const void *s1, const void *s2)
+{
+	return memcmp(s1, s2, COMMANDLEN_MAX);
+}
+
+/* main api function */
+void init_completions()
+{
+	qsort(completions, current_num_completions, sizeof(completions[0]),
+	      compl_lesscomp);
+}
+
+/* main api function */
+int completion_exists(char *compl)
+{
+	int i;
+	int *it_begin;
+	int tmp[TOKENLEN_MAX];
+	for (i = 0 ; compl[i]; ++i) {
+		if (i == TOKENLEN_MAX-1) {
+			break;
+		}
+		tmp[i]=compl[i];
+	}
+
+	tmp[i] = 0;
+	memsize = i; /* compare amount of characters equivalent to lenth of compl 
+		      * plus a NULL-terminator */
+	it_begin = (int*)(lfind(tmp, completions,
+		&current_num_completions, sizeof(completions[0]),
+		compl_eqcompar));
+	return it_begin != NULL;
 }
 
 /* main api function */

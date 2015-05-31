@@ -10,6 +10,7 @@
  */
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>
 #include "auto_complete.h"
 
 #define MAX_COMMAND_LENGTH 20
@@ -64,13 +65,16 @@ int main()
 void setup()
 {
 	/* add internal commands as possible completions */
+	assert(!completion_exists("help"));
 	init_completion("help");
 	init_completion("history");
 	init_completion("exit");
+	assert(completion_exists("history"));
 
 	/* add some random bullshit as possible completions - in real life program
 	 * these would be possibly legal parameters to said commands.
 	 */
+	assert(!completion_exists("alpha.omega"));
 	init_completion("alpha.omega");
 	init_completion("alpha.zeta");
 	init_completion("beta");
