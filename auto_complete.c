@@ -396,6 +396,10 @@ char *getline_complete(char *prompt)
 				if (!cursorpos) {
 					print_all_completions(line, 0);
 					print_prompt(prompt);
+					for (i = 0 ; i !=  strlen; ++i)
+						putc_utf8(line[i]);
+					if (strlen!=cursorpos)
+						printf(CURSOR_BACKWARD_N, strlen-cursorpos);
 					continue;
 				}
 				int cplpos = cursorpos;

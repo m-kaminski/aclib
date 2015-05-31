@@ -13,6 +13,7 @@ help: .phony
 	@echo " all - both"
 	@echo " test - execute tests (requires CMake)"
 	@echo " clean - remove build products"
+	@echo " rebuild - clean all test"
 
 all: aclib.a example
 
@@ -43,6 +44,11 @@ test: .phony
 	cmake test
 	make -C test test
 	echo "test log is contained in test/test_log"
+
+rebuild: .phony
+	make clean
+	make all
+	make test
 
 # My personal make target will likely be useless for you.
 package: .phony
