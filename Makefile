@@ -38,6 +38,7 @@ clean: .phony
 	rm -f example
 	rm -f *.o
 	rm -f *.a
+	cd test; rm -rf CMakeCache.txt  CMakeFiles  cmake_install.cmake Makefile CTestTestfile.cmake Testing test_log
 
 test: .phony
 	rm test/test_log
