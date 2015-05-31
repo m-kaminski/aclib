@@ -1,0 +1,17 @@
+Copyright (c) 2015, Maciej Kaminski. 
+WWW: maciejkaminski.pl
+email: maciej.a.kaminski@gmail.com
+
+Published under 2-clause BSD-style license
+1. Redistributions of source code must retain the above copyright notice
+2. Redistributions in binary form must reproduce the above copyright notice
+
+library exports just 4 functions in one header
+ - init_completion - add phrase to completion table
+ - init_completions - sort completions table
+ - getline_complete - get line; returns 0 if just eolf
+ - print_history - print command history to stdout
+
+please refer to comments in auto_complete.h for whole API description
+
+please refer to example.c to see how to use this shit
