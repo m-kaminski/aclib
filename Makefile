@@ -5,12 +5,13 @@
 # 1. Redistributions of source code must retain the above copyright notice
 # 2. Redistributions in binary form must reproduce the above copyright notice
 
-help:
+help: .phony
 	@echo "aclib - auto completion library by Maciej Kaminski. build it yourself:"
 	@echo "following make targets are possible:"
 	@echo " example - example program"
 	@echo " library - only library"
 	@echo " all - both"
+	@echo " test - execute tests (requires CMake)"
 	@echo " clean - remove build products"
 
 all: aclib.a example
@@ -32,12 +33,21 @@ vt100term.o: vt100term.c
 special_keys.o: special_keys.c
 	gcc -c special_keys.c -g -o special_keys.o
 
-clean:
+clean: .phony
 	rm -f example
 	rm -f *.o
 	rm -f *.a
 
+test: .phony
+	rm test/test_log
+	cmake test
+	make -C test test
+	echo "test log is contained in test/test_log"
+
 # My personal make target will likely be useless for you.
-package:
+package: .phony
 	cd .. ; tar -cf auto_complete.tar aclib/README aclib/*.c aclib/*.h aclib/Makefile
 	scp ../auto_complete.tar s2.mydevil.net:~/domains/maciejkaminski.pl/public_html
+
+.phony:
+
