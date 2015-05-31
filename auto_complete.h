@@ -14,6 +14,28 @@
 #ifndef __AUTO_COMPLETE_
 #define __AUTO_COMPLETE_
 
+/*
+ * If you feel that you need more history entries, more possible completions
+ * or longer commands, feel free to adjust following macros.
+ *
+ * Note that library holds static arrays of size:
+ *  COMMANDLEN_MAX*MAX_NUM_COMPLETIONS*sizeof(int)
+ *  and COMMANDLEN_MAX*MAX_NUM_HISTORY*sizeof(int)
+ *
+ * and thus if you'll increase these above common sense, memory footprint of
+ * your program will grow substantially.
+ */
+
+/**! maximum length of command */
+#define COMMANDLEN_MAX 4096
+
+/**! maximum number of possible completions */
+#define MAX_NUM_COMPLETIONS 2048
+
+/**! number of history entries */
+#define MAX_NUM_HISTORY 200
+
+
 /**
  * Add a string onto list of possible completions
  *

@@ -14,9 +14,20 @@
 
 #define MAX_COMMAND_LENGTH 20
 
-#define INTASTEXT(N) # N
 void setup();
 
+/**
+ * Example program does just following things:
+ * - Reads command from stdin (allowing autocompletion of commands and some other patterns)
+ * - Prints it back to stdout
+ * - If "history" is entered, prints command history
+ * - If "help" is enteret, prints helpful message
+ * - If "exit" is entered, program ends.
+ * - Otherwise complains that command is not recognized
+ *
+ * To end program user can also type either Ctrl+C (SIGINT) or Ctrl+D (SIGSTOP) with an
+ * empty command line.
+ */
 int main()
 {
 	setup();
@@ -32,7 +43,10 @@ int main()
 			if (!strncmp(command, "history", MAX_COMMAND_LENGTH)) {
 				print_history();
 			} else if (!strncmp(command, "help", MAX_COMMAND_LENGTH)) {
-				puts("You're left alone");
+				puts("Read the source to know what to do. Type \""
+					"exit\" to end this program");
+			} else if (!strncmp(command, "exit", MAX_COMMAND_LENGTH)) {
+				break;
 			} else {
 				command[MAX_COMMAND_LENGTH-1]=0;
 				printf("%s is not recognized as an internal "
@@ -49,11 +63,17 @@ int main()
  */
 void setup()
 {
+	/* add internal commands as possible completions */
+	init_completion("help");
+	init_completion("history");
+	init_completion("exit");
+
+	/* add some random bullshit as possible completions - in real life program
+	 * these would be possibly legal parameters to said commands.
+	 */
 	init_completion("alpha.omega");
 	init_completion("alpha.zeta");
 	init_completion("beta");
-	init_completion("help");
-	init_completion("history");
 	init_completion("gamma");
 	init_completion("gamma.al-z3");
 	init_completion("gamma.alpha");
