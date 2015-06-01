@@ -5,13 +5,15 @@
 # 1. Redistributions of source code must retain the above copyright notice
 # 2. Redistributions in binary form must reproduce the above copyright notice
 
+CFLAGS+= -g -fprofile-arcs -ftest-coverage
+
 help: .phony
 	@echo "aclib - auto completion library by Maciej Kaminski. build it yourself:"
 	@echo "following make targets are possible:"
 	@echo " example - example program"
 	@echo " library - only library"
 	@echo " all - both"
-	@echo " test - execute tests (requires CMake)"
+	@echo " test - execute tests (requires CMake and gcov)"
 	@echo " clean - remove build products"
 	@echo " rebuild - clean all test"
 
@@ -20,31 +22,34 @@ all: aclib.a example
 library: aclib.a
 
 example: example.c aclib.a
-	gcc example.c aclib.a -g -o example
+	gcc example.c aclib.a $(CFLAGS) -o example
 
 aclib.a: auto_complete.o special_keys.o vt100term.o
 	ar -rcs aclib.a auto_complete.o special_keys.o vt100term.o
 
 auto_complete.o: auto_complete.c
-	gcc -c auto_complete.c -g -o auto_complete.o
+	gcc -c auto_complete.c $(CFLAGS) -o auto_complete.o
 
 vt100term.o: vt100term.c
-	gcc -c vt100term.c -g -o vt100term.o
+	gcc -c vt100term.c $(CFLAGS) -o vt100term.o
 
 special_keys.o: special_keys.c
-	gcc -c special_keys.c -g -o special_keys.o
+	gcc -c special_keys.c $(CFLAGS) -o special_keys.o
 
 clean: .phony
 	rm -f example
 	rm -f *.o
 	rm -f *.a
-	cd test; rm -rf CMakeCache.txt  CMakeFiles  cmake_install.cmake Makefile CTestTestfile.cmake Testing test_log
+	rm -f *.gcda *.gcno *.gcov
+	cd test; rm -rf CMakeCache.txt  CMakeFiles  cmake_install.cmake Makefile CTestTestfile.cmake Testing test_log gcov_log
 
-test: example
+test: example .phony
 	rm -f test/test_log
 	cd test; cmake .
 	make -C test test
-	echo "test log is contained in test/test_log"
+	@echo "Test log is contained in test/test_log"
+	@./test/gcov_analysis.sh > test/gcov_log
+	@echo "Coverage analysis is contained in test/gcov_log"
 
 rebuild: .phony
 	make clean
