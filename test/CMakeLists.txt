@@ -121,8 +121,25 @@ add_test( "possible_completions3" ./possible_completions.sh "gam\\\\033[1;5DZ\\\
 # make sure that utf-8 are properly transformed
 add_test( "polish_text"    ./test_completions.sh "ąęćł" "ąęćł")
 add_test( "polish_text_arrow"    ./test_completions.sh "ąęć\\\\033[Dł" "ąęłć")
-add_test( "four_byte_stuff" ./test_completions.sh "ab𐍈""ab𐍈")
+add_test( "four_byte_stuff" ./test_completions.sh "ab\\\\xF0\\\\x90\\\\x8D\\\\x88" "ab\\\\xF0\\\\x90\\\\x8D\\\\x88")
+
 add_test( "chinese_text" ./test_completions.sh "关于中文维基百科" "关于中文维基百科")
 
+# test validation of UTF 8 encodings
+add_test( "four_byte_stuff_insane" ./test_invalid_utf8.sh "ab\\\\xF0\\\\x90\\\\x8D\\\\xFF" )
+add_test( "four_byte_stuff_sane" ./test_invalid_utf8.sh "ab\\\\xF0\\\\x90\\\\x8D\\\\x88" "negative")
+
+add_test( "three_byte_stuff_insane" ./test_invalid_utf8.sh "ab\\\\xe2\\\\x82\\\\xff" )
+add_test( "three_byte_stuff_sane" ./test_invalid_utf8.sh "ab\\\\xe2\\\\x82\\\\xac" "negative")
+add_test( "two_byte_stuff_insane" ./test_invalid_utf8.sh "ab\\\\xC2\\\\xFF" )
+add_test( "two_byte_stuff_sane" ./test_invalid_utf8.sh "ab\\\\xC2\\\\xA2" "negative")
+add_test( "one_byte_stuff_insane" ./test_invalid_utf8.sh "ab\\\\xff" )
+add_test( "one_byte_stuff_sane" ./test_invalid_utf8.sh "ab\\\\x24" "negative")
+
+# test long history
 add_test( "overlong_history" ./overlong_history.sh )
 
+#test too many completions
+add_test( "n2047_completions" ./test_many_compl.exe "2047")
+add_test( "n2048_completions" ./test_many_compl.exe "2048")
+add_test( "n2049_completions" ./test_many_compl.exe "2049")

@@ -49,9 +49,10 @@ char *getline_complete(char *prompt);
  * you actually need. To check if completion exists (i.e. in application that periodically adds
  * more completions to its table) use completion_exists routine.
  *
- * @param[in] compl a string to which text inserted may be expanded (in aclib lingo: availabe completion)
+ * @param[in] compl a string to which text inserted may be expanded (in aclib lingo: availabe completion). Note, that this must be an ascii-7 string (no Unicode).
+ * @return 0 upon success; otherwise nonzero value
  */
-void init_completion(char *compl);
+int init_completion(char *compl);
 
 /**
  * check if string given is within completion table

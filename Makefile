@@ -5,7 +5,7 @@
 # 1. Redistributions of source code must retain the above copyright notice
 # 2. Redistributions in binary form must reproduce the above copyright notice
 
-CFLAGS+= -g -fprofile-arcs -ftest-coverage
+CFLAGS+= -g -fprofile-arcs -ftest-coverage -DDO_VALIDATE_UTF_8_OUTPUT
 
 help: .phony
 	@echo "aclib - auto completion library by Maciej Kaminski. build it yourself:"
@@ -45,6 +45,7 @@ clean: .phony
 
 test: example .phony
 	gcc test/test_characters.c aclib.a -o test/test_characters.exe -g -fprofile-arcs -ftest-coverage
+	gcc test/test_many_compl.c aclib.a -o test/test_many_compl.exe -g -fprofile-arcs -ftest-coverage
 	rm -f test/test_log
 	cd test; cmake .
 	make -C test test
@@ -59,7 +60,7 @@ rebuild: .phony
 
 # My personal make target will likely be useless for you.
 package: .phony
-	cd .. ; tar -cf auto_complete.tar aclib/README aclib/*.c aclib/*.h aclib/Makefile aclib/LICENSE aclib/test/CMakeLists.txt aclib/test/template_* aclib/test/*.sh
+	cd .. ; tar -cf auto_complete.tar aclib/README aclib/*.c aclib/*.h aclib/Makefile aclib/LICENSE aclib/test/CMakeLists.txt aclib/test/template_* aclib/test/*.sh aclib/test/*.c
 	scp ../auto_complete.tar s2.mydevil.net:~/domains/maciejkaminski.pl/public_html
 
 .phony:

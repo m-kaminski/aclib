@@ -11,7 +11,8 @@
 
 OUTPUT=`echo -e "$1" | ../example | grep Input | cut -d "\"" -f 2 | tail -1`
 
-test "$2" = "$OUTPUT"
+EXPECTATION=`echo -e "$2"`
+test "$EXPECTATION" = "$OUTPUT"
 
 RESULT=$?
 (

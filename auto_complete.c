@@ -450,9 +450,12 @@ char *getline_complete(char *prompt)
 }
 
 /* main api function */
-void init_completion(char *compl)
+int init_completion(char *compl)
 {
 	int i;
+	if (current_num_completions == MAX_NUM_COMPLETIONS) {
+		return 1;
+	}
 	for (i = 0 ; compl[i]; ++i) {
 		if (i == TOKENLEN_MAX-1) {
 			break;
@@ -461,6 +464,7 @@ void init_completion(char *compl)
 	}
 	completions[current_num_completions][i] = 0;
 	current_num_completions++;
+	return 0;
 }
 
 /* helper for qsort*/
