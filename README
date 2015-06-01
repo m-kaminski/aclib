@@ -6,7 +6,7 @@ Published under 2-clause BSD-style license
 1. Redistributions of source code must retain the above copyright notice
 2. Redistributions in binary form must reproduce the above copyright notice
 
-Version number is 1.0.1
+Version number is 1.0.2
 
 library exports just 4 functions in one header
  - init_completion - add phrase to completion table
