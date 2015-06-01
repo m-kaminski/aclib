@@ -103,27 +103,21 @@ int* search_completion(int* begin, int size) {
 	size_t num_negative = (it_end-it_begin) / TOKENLEN_MAX;
 	int *keypart=it_begin;
 
-	if (!size) {
-		return 0;
-	} else if (keypart) {
-		if ( ((keypart-&completions[0][0]) / TOKENLEN_MAX == current_num_completions-1) ) {
-			/* completion is unique */
-			return keypart+size;
-		} else {
-			/* else return unique part and nothing more */
-			int i;
-			static int line[COMMANDLEN_MAX];
-			for (i = 0 ; keypart[i]; ++i) {
-				if (keypart[size+i]!=keypart[size+i+TOKENLEN_MAX*(num_negative-1)]) {
-					break;
-				}
-				line[i]=keypart[i+size];
-			}
-			line[i] = 0;
-			return line;
-		}
+	if ( ((keypart-&completions[0][0]) / TOKENLEN_MAX == current_num_completions-1) ) {
+		/* completion is unique */
+		return keypart+size;
 	} else {
-		return 0;
+		/* else return unique part and nothing more */
+		int i;
+		static int line[COMMANDLEN_MAX];
+		for (i = 0 ; keypart[i]; ++i) {
+			if (keypart[size+i]!=keypart[size+i+TOKENLEN_MAX*(num_negative-1)]) {
+				break;
+			}
+			line[i]=keypart[i+size];
+		}
+		line[i] = 0;
+		return line;
 	}
 }
 

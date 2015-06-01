@@ -4,6 +4,15 @@ enable_testing()
 add_test( "completions" ./test_completions.sh "al\\\\t"  "alpha.")
 add_test( "double_completions" ./test_completions.sh "al\\\\tz\\\\t"  "alpha.zeta")
 add_test( "completions_last" ./test_completions.sh "ze\\\\t"  "zeta")
+
+add_test( "empty_completion" ./test_completions.sh "\\\\t"  "")
+add_test( "space_completion" ./test_completions.sh " \\\\t"  " ")
+add_test( "impossible_completion" ./test_completions.sh "dup\\\\t"  "dup")
+add_test( "empty_dbl_completion" ./test_completions.sh "\\\\t\\\\t"  "")
+add_test( "space_dbl_completion" ./test_completions.sh " \\\\t\\\\t"  " ")
+add_test( "impossible_dbl_completion" ./test_completions.sh "dup\\\\t\\\\t"  "dup")
+
+
 # basic cursor movement tests
 # left \\\\033[D
 # ctrl+left \\\\033[1;5D
@@ -54,5 +63,8 @@ add_test( "history_content"    ./test_history.sh "ls\\\\nll\\\\nlz\\\\n\\\\033[A
 # test possible completions 
 add_test( "possible_completions"  ./possible_completions.sh "alp\\\\t\\\\t" template_output )
 add_test( "possible_completions2"  ./possible_completions.sh "gamm\\\\t\\\\t" template_output2 )
+add_test( "possible_completions3" ./possible_completions.sh "gam\\\\033[1;5DZ\\\\t\\\\t" template_output3)
 
 add_test( "polish_text"    ./test_completions.sh "ąęćł" "ąęćł")
+
+add_test( "overlong_history" ./overlong_history.sh )
