@@ -1,0 +1,11 @@
+[4h[1m[34mexample:> [0mgamm[Ka[K[1m
+possible completions are:
+[0m[0mgamma
+[0mgamma[1m.al-z3
+[0mgamma[1m.alpha
+[0mgamma[1m.alpha.[0m[more]
+[0m[1m[34mexample:> [0mgamma
+[4lInput string: "gamma"
+gamma is not recognized as an internal command.
+[4h[1m[34mexample:> [0m
+[4lBye.

@@ -58,7 +58,7 @@ rebuild: .phony
 
 # My personal make target will likely be useless for you.
 package: .phony
-	cd .. ; tar -cf auto_complete.tar aclib/README aclib/*.c aclib/*.h aclib/Makefile
+	cd .. ; tar -cf auto_complete.tar aclib/README aclib/*.c aclib/*.h aclib/Makefile aclib/LICENSE aclib/test/CMakeLists.txt aclib/test/template_* aclib/test/*.sh
 	scp ../auto_complete.tar s2.mydevil.net:~/domains/maciejkaminski.pl/public_html
 
 .phony:

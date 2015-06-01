@@ -1,14 +1,14 @@
 #!/bin/bash
 
 echo "Possible completions test" >> test_log
-echo -e "alp\t\t" | ../example | diff template_output -
+echo -e "$1" | ../example | diff $2 -
 if [[ $? -ne 0 ]]
 then
     (
 	echo "Expected:"
-	cat template_output
+	cat $2
 	echo "Got:"
-	echo -e "alp\t\t" | ../example
+	echo -e "$1" | ../example
 	echo "Passed. Test result: 1"
     )>> test_log
     exit 1

@@ -52,4 +52,7 @@ add_test( "history_rewind"    ./test_completions.sh "ls\\\\nll\\\\nlz\\\\n\\\\03
 add_test( "history_content"    ./test_history.sh "ls\\\\nll\\\\nlz\\\\n\\\\033[A\\\\033[A\\\\033[A\\\\033[A\\\\nhistory" "ls\\\\nll\\\\nlz\\\\nhistory")
 
 # test possible completions 
-add_test( "possible_completions"  ./possible_completions.sh )
+add_test( "possible_completions"  ./possible_completions.sh "alp\\\\t\\\\t" template_output )
+add_test( "possible_completions2"  ./possible_completions.sh "gamm\\\\t\\\\t" template_output2 )
+
+add_test( "polish_text"    ./test_completions.sh "ąęćł" "ąęćł")
