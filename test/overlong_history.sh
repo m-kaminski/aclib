@@ -1,4 +1,14 @@
 #!/bin/bash
+# Test script aclib - auto completion library
+# This is part of automated (unit) test suite for library
+#
+# Purpose of this is to test behavior when amount of history entries exceeds max
+# size of history buffer
+#
+# Copyright (c) 2015, Maciej Kaminski.
+# Published under 2-clause BSD-style license
+# 1. Redistributions of source code must retain the above copyright notice
+# 2. Redistributions in binary form must reproduce the above copyright notice
 
 #assume that there is limit to 200 history entries.
 #therefore in process of entering 250 commands, first 50 will be dropped

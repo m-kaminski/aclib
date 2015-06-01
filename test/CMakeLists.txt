@@ -1,6 +1,59 @@
+# CMake file for aclib - auto completion library
+# This is part of automated (unit) test suite for library
+#
+# Copyright (c) 2015, Maciej Kaminski.
+# Published under 2-clause BSD-style license
+# 1. Redistributions of source code must retain the above copyright notice
+# 2. Redistributions in binary form must reproduce the above copyright notice
+
 cmake_minimum_required(VERSION 3.0)
 enable_testing()
 
+# use this as reference for testing keymapping
+# http://web.mit.edu/gnu/doc/html/screen_10.html
+# Note that keys supported by aclib are xterm keys
+# (proper VT100 would generate different mappings)
+
+# check if key codings used in tests and in app are consistent;
+# test get_key_name codepath
+add_test( "keymapping_up" ./test_characters.sh "\\\\033[A" "↑" )
+add_test( "keymapping_down" ./test_characters.sh "\\\\033[B" "↓" )
+add_test( "keymapping_right" ./test_characters.sh "\\\\033[C" "→" )
+add_test( "keymapping_left" ./test_characters.sh "\\\\033[D" "←" )
+
+add_test( "keymapping_ctrlup" ./test_characters.sh "\\\\033[1;5A" "CtrlUp" )
+add_test( "keymapping_ctrldown" ./test_characters.sh "\\\\033[1;5B" "CtrlDown" )
+add_test( "keymapping_ctrlright" ./test_characters.sh "\\\\033[1;5C" "CtrlRight" )
+add_test( "keymapping_ctrlleft" ./test_characters.sh "\\\\033[1;5D" "CtrlLeft" )
+
+add_test( "keymapping_home" ./test_characters.sh "\\\\033[7~" "Home" )
+add_test( "keymapping_end" ./test_characters.sh "\\\\033[8~" "End" )
+add_test( "keymapping_home_alt" ./test_characters.sh "\\\\033[H" "Home" )
+add_test( "keymapping_end_alt" ./test_characters.sh "\\\\033[F" "End" )
+add_test( "keymapping_delete" ./test_characters.sh "\\\\033[3~" "Delete" )
+
+add_test( "keymapping_backs" ./test_characters.sh "\\\\0177" "Backspace" )
+add_test( "keymapping_enter" ./test_characters.sh "\\\\n" "Enter" )
+add_test( "keymapping_tab" ./test_characters.sh "\\\\t" "Tab" )
+
+
+add_test( "keymapping_F1" ./test_characters.sh "\\\\033OP" "F1" )
+add_test( "keymapping_F2" ./test_characters.sh "\\\\033OQ" "F2" )
+add_test( "keymapping_F3" ./test_characters.sh "\\\\033OR" "F3" )
+add_test( "keymapping_F4" ./test_characters.sh "\\\\033OS" "F4" )
+
+add_test( "keymapping_F5" ./test_characters.sh "\\\\033[15~" "F5" )
+add_test( "keymapping_F6" ./test_characters.sh "\\\\033[17~" "F6" )
+add_test( "keymapping_F7" ./test_characters.sh "\\\\033[18~" "F7" )
+add_test( "keymapping_F8" ./test_characters.sh "\\\\033[19~" "F8" )
+
+add_test( "keymapping_F9" ./test_characters.sh "\\\\033[20~" "F9" )
+add_test( "keymapping_F10" ./test_characters.sh "\\\\033[21~" "F10" )
+add_test( "keymapping_F11" ./test_characters.sh "\\\\033[23~" "F11" )
+add_test( "keymapping_F12" ./test_characters.sh "\\\\033[24~" "F12" )
+
+
+# now test basic auto_completion algorithm
 add_test( "completions" ./test_completions.sh "al\\\\t"  "alpha.")
 add_test( "double_completions" ./test_completions.sh "al\\\\tz\\\\t"  "alpha.zeta")
 add_test( "completions_last" ./test_completions.sh "ze\\\\t"  "zeta")
@@ -65,27 +118,11 @@ add_test( "possible_completions"  ./possible_completions.sh "alp\\\\t\\\\t" temp
 add_test( "possible_completions2"  ./possible_completions.sh "gamm\\\\t\\\\t" template_output2 )
 add_test( "possible_completions3" ./possible_completions.sh "gam\\\\033[1;5DZ\\\\t\\\\t" template_output3)
 
+# make sure that utf-8 are properly transformed
 add_test( "polish_text"    ./test_completions.sh "ąęćł" "ąęćł")
 add_test( "polish_text_arrow"    ./test_completions.sh "ąęć\\\\033[Dł" "ąęłć")
-
+add_test( "four_byte_stuff" ./test_completions.sh "ab𐍈""ab𐍈")
 add_test( "chinese_text" ./test_completions.sh "关于中文维基百科" "关于中文维基百科")
 
 add_test( "overlong_history" ./overlong_history.sh )
 
-# use this as reference for testing keymapping
-# http://web.mit.edu/gnu/doc/html/screen_10.html
-add_test( "keymapping_up" ./test_characters.sh "\\\\033[A" "↑" )
-add_test( "keymapping_down" ./test_characters.sh "\\\\033[B" "↓" )
-add_test( "keymapping_right" ./test_characters.sh "\\\\033[C" "→" )
-add_test( "keymapping_left" ./test_characters.sh "\\\\033[D" "←" )
-
-add_test( "keymapping_ctrlup" ./test_characters.sh "\\\\033[1;5A" "CtrlUp" )
-add_test( "keymapping_ctrldown" ./test_characters.sh "\\\\033[1;5B" "CtrlDown" )
-add_test( "keymapping_ctrlright" ./test_characters.sh "\\\\033[1;5C" "CtrlRight" )
-add_test( "keymapping_ctrlleft" ./test_characters.sh "\\\\033[1;5D" "CtrlLeft" )
-
-add_test( "keymapping_home" ./test_characters.sh "\\\\033[7~" "Home" )
-add_test( "keymapping_end" ./test_characters.sh "\\\\033[8~" "End" )
-add_test( "keymapping_home_alt" ./test_characters.sh "\\\\033[H" "Home" )
-add_test( "keymapping_end_alt" ./test_characters.sh "\\\\033[F" "End" )
-add_test( "keymapping_delete" ./test_characters.sh "\\\\033[3~" "Delete" )

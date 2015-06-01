@@ -41,9 +41,10 @@ clean: .phony
 	rm -f *.o
 	rm -f *.a
 	rm -f *.gcda *.gcno *.gcov
-	cd test; rm -rf CMakeCache.txt  CMakeFiles  cmake_install.cmake Makefile CTestTestfile.cmake Testing test_log gcov_log
+	cd test; rm -rf CMakeCache.txt  CMakeFiles  cmake_install.cmake Makefile CTestTestfile.cmake Testing test_log gcov_log rm *.exe
 
 test: example .phony
+	gcc test/test_characters.c aclib.a -o test/test_characters.exe -g -fprofile-arcs -ftest-coverage
 	rm -f test/test_log
 	cd test; cmake .
 	make -C test test
