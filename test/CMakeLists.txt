@@ -136,6 +136,10 @@ add_test( "two_byte_stuff_sane" ./test_invalid_utf8.sh "ab\\\\xC2\\\\xA2" "negat
 add_test( "one_byte_stuff_insane" ./test_invalid_utf8.sh "ab\\\\xff" )
 add_test( "one_byte_stuff_sane" ./test_invalid_utf8.sh "ab\\\\x24" "negative")
 
+add_test( "two_byte_stuff_overlong" ./test_invalid_utf8.sh "ab\\\\xc0\\\\x80" )
+add_test( "three_byte_stuff_overlong" ./test_invalid_utf8.sh "ab\\\\xe0\\\\x80\\\\x80" )
+add_test( "four_byte_stuff_overlong" ./test_invalid_utf8.sh "ab\\\\xf0\\\\x80\\\\x80\\\\x80" )
+
 # test long history
 add_test( "overlong_history" ./overlong_history.sh )
 
