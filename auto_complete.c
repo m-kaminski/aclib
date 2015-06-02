@@ -457,8 +457,10 @@ int init_completion(char *compl)
 		return 1;
 	}
 	for (i = 0 ; compl[i]; ++i) {
-		if (i == TOKENLEN_MAX-1) {
-			break;
+		if (i >= TOKENLEN_MAX-1) {
+			memset(&completions[current_num_completions][0], 0,
+			       sizeof(completions[i]));
+			return 1;
 		}
 		completions[current_num_completions][i]=compl[i];
 	}

@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include "../special_keys.h"
 
-
 int main()
 {
 	int i = decode_key_pressed();

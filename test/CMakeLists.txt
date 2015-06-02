@@ -36,6 +36,15 @@ add_test( "keymapping_backs" ./test_characters.sh "\\\\0177" "Backspace" )
 add_test( "keymapping_enter" ./test_characters.sh "\\\\n" "Enter" )
 add_test( "keymapping_tab" ./test_characters.sh "\\\\t" "Tab" )
 
+add_test( "keymapping_pgup" ./test_characters.sh "\\\\033[5~" "PageUp" )
+add_test( "keymapping_pgdn" ./test_characters.sh "\\\\033[6~" "PageDown" )
+add_test( "keymapping_insert" ./test_characters.sh "\\\\033[2~" "Insert" )
+add_test( "keymapping_escape" ./test_characters.sh "\\\\e" "Escape" )
+
+
+add_test( "keymapping_ctrlbacksp" ./test_characters.sh "\\\\010" "CtrlBackspace" )
+
+
 
 add_test( "keymapping_F1" ./test_characters.sh "\\\\033OP" "F1" )
 add_test( "keymapping_F2" ./test_characters.sh "\\\\033OQ" "F2" )
@@ -73,6 +82,8 @@ add_test( "left_arrow"  ./test_completions.sh "alph\\\\033[Da" "alpah")
 add_test( "ctrl_left_arrow"  ./test_completions.sh "alph\\\\033[1;5Da" "aalph")
 add_test( "ctrl_left_arrow2"  ./test_completions.sh "zeta alph\\\\033[1;5Da" "zetaa alph")
 add_test( "ctrl_left_arrow3"  ./test_completions.sh "zeta.alph\\\\033[1;5Da" "zetaa.alph")
+# delete key support \\\\033[3~
+add_test( "left_arrow_delete"  ./test_completions.sh "alpha\\\\033[D\\\\033[D\\\\033[3~" "alpa")
 # home key \\\\033[7\\\\x7e
 add_test( "home_key"  ./test_completions.sh "alph\\\\033[7\\\\x7ea" "aalph")
 add_test( "home_key_long"  ./test_completions.sh "alpha beta gamm\\\\033[7\\\\x7ea" "aalpha beta gamm")
@@ -104,7 +115,11 @@ add_test( "empty_history"    ./test_history.sh "history" "history")
 
 add_test( "multi_lines"    ./test_completions.sh "ls\\\\nll\\\\nlz" "lz")
 
+add_test( "empty_history_editing"    ./test_completions.sh "lz\\\\033[A" "lz")
+
 # single up
+add_test( "history_single_up"    ./test_completions.sh "lz\\\\nla\\\\033[A" "lz")
+
 add_test( "multi_lines_last_empty"    ./test_completions.sh "ls\\\\nll\\\\nlz\\\\n" "")
 
 add_test( "multi_lines_last_history"    ./test_completions.sh "ls\\\\nll\\\\nlz\\\\n\\\\033[A\\\\033[A" "ll")
@@ -144,6 +159,10 @@ add_test( "four_byte_stuff_overlong" ./test_invalid_utf8.sh "ab\\\\xf0\\\\x80\\\
 add_test( "overlong_history" ./overlong_history.sh )
 
 #test too many completions
+add_test( "n2046_completions" ./test_many_compl.exe "2046")
 add_test( "n2047_completions" ./test_many_compl.exe "2047")
 add_test( "n2048_completions" ./test_many_compl.exe "2048")
 add_test( "n2049_completions" ./test_many_compl.exe "2049")
+add_test( "n20480_completions" ./test_many_compl.exe "20480")
+
+add_test( "extra_long_completions" ./extra_long_completions.exe)

@@ -45,6 +45,7 @@ clean: .phony
 
 test: example .phony
 	gcc test/test_characters.c aclib.a -o test/test_characters.exe -g -fprofile-arcs -ftest-coverage
+	gcc test/extra_long_completions.c aclib.a -o test/extra_long_completions.exe -g -fprofile-arcs -ftest-coverage
 	gcc test/test_many_compl.c aclib.a -o test/test_many_compl.exe -g -fprofile-arcs -ftest-coverage
 	rm -f test/test_log
 	cd test; cmake .

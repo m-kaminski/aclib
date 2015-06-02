@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 			return 1; /* init completion failed while it should succeed */
 		}
 		if (i>=MAX_NUM_COMPLETIONS && !res) {
-			return 1; /* init completion failed while it should succeed */
+			return 1; /* init completion did not fail while it should fail */
 		}
 	}
 	return 0;
