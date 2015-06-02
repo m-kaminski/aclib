@@ -11,6 +11,7 @@
  */
 
 #include <stdint.h>
+#include <stdio.h>
 #include "../auto_complete.h"
 
 int main(int argc, char **argv)

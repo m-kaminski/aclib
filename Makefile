@@ -5,7 +5,7 @@
 # 1. Redistributions of source code must retain the above copyright notice
 # 2. Redistributions in binary form must reproduce the above copyright notice
 
-CFLAGS+= -g -fprofile-arcs -ftest-coverage -DDO_VALIDATE_UTF_8_OUTPUT
+CFLAGS+= -g -fprofile-arcs -ftest-coverage -DDO_VALIDATE_UTF_8_OUTPUT --std=c99 --pedantic --pedantic-errors
 
 help: .phony
 	@echo "aclib - auto completion library by Maciej Kaminski. build it yourself:"
@@ -44,9 +44,9 @@ clean: .phony
 	cd test; rm -rf CMakeCache.txt  CMakeFiles  cmake_install.cmake Makefile CTestTestfile.cmake Testing test_log gcov_log rm *.exe
 
 test: example .phony
-	gcc test/test_characters.c aclib.a -o test/test_characters.exe -g -fprofile-arcs -ftest-coverage
-	gcc test/extra_long_completions.c aclib.a -o test/extra_long_completions.exe -g -fprofile-arcs -ftest-coverage
-	gcc test/test_many_compl.c aclib.a -o test/test_many_compl.exe -g -fprofile-arcs -ftest-coverage
+	gcc test/test_characters.c aclib.a -o test/test_characters.exe $(CFLAGS)
+	gcc test/extra_long_completions.c aclib.a -o test/extra_long_completions.exe $(CFLAGS)
+	gcc test/test_many_compl.c aclib.a -o test/test_many_compl.exe $(CFLAGS)
 	rm -f test/test_log
 	cd test; cmake .
 	make -C test test

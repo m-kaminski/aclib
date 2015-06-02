@@ -24,6 +24,7 @@
 #include <string.h>
 #include <search.h>
 #include <signal.h>
+#include <stdlib.h>
 #include "special_keys.h"
 #include "vt100codes.h"
 #include "vt100term.h"
