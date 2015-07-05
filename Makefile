@@ -5,8 +5,14 @@
 # 1. Redistributions of source code must retain the above copyright notice
 # 2. Redistributions in binary form must reproduce the above copyright notice
 
-CFLAGS+= -g -fprofile-arcs -ftest-coverage -DDO_VALIDATE_UTF_8_OUTPUT --std=c99 --pedantic --pedantic-errors
+# use this set of cflags for unit test execution
+XCFLAGS= -g -fprofile-arcs -ftest-coverage -DDO_VALIDATE_UTF_8_OUTPUT --std=c99 --pedantic --pedantic-errors
+# use this set of flags if you need clean and small executable
+# XCFLAGS= -Os -DDO_VALIDATE_UTF_8_OUTPUT --std=c99 --pedantic --pedantic-errors
+# use this set of flags if you need aclib to be thread safe (by default it is not)
+# XCFLAGS= -Os -DTHREAD_SAFETY -DDO_VALIDATE_UTF_8_OUTPUT -std=c99 --pedantic --pedantic-errors
 
+CFLAGS+=$(XCFLAGS)
 help: .phony
 	@echo "aclib - auto completion library by Maciej Kaminski. build it yourself:"
 	@echo "following make targets are possible:"

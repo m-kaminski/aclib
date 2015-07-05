@@ -13,6 +13,9 @@
 
 #ifndef __AUTO_COMPLETE_
 #define __AUTO_COMPLETE_
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * Reads command from standard input.
@@ -39,7 +42,7 @@
  *
  * @param prompt command prompt
  */
-char *getline_complete(char *prompt);
+char *getline_complete(const char *prompt);
 
 /**
  * Add a string onto list of possible completions
@@ -52,14 +55,14 @@ char *getline_complete(char *prompt);
  * @param[in] compl a string to which text inserted may be expanded (in aclib lingo: availabe completion). Note, that this must be an ascii-7 string (no Unicode).
  * @return 0 upon success; otherwise nonzero value
  */
-int init_completion(char *compl);
+int init_completion(const char *_compl);
 
 /**
  * check if string given is within completion table
  *
  * @param[in] compl a string to be checked.
  */
-int completion_exists(char *compl);
+int completion_exists(const char * _compl);
 
 /**
  * Helper routine - must be called after init_completion and before getline_complete.
@@ -74,6 +77,20 @@ void init_completions();
  */
 void print_history();
 
+/**
+ * @brief Temporarily hide auto completions line (in the middle of entering text).
+ *
+ * When this routine is invoked (during execution of getline_complete), entire acline is hidden.* and cursor is moved to begining of empty line.
+ * Global lock is set up, so that temporarily no data from stdin gets accepted.
+ */
+void hide_acline();
+
+/**
+ * @brief revert hide_acline
+ *
+ * Acline is restored.
+ */
+void restore_acline();
 /*
  * If you feel that you need more history entries, more possible completions
  * or longer commands, feel free to adjust following macros.
@@ -94,5 +111,7 @@ void print_history();
 
 /**! number of history entries */
 #define MAX_NUM_HISTORY 200
-
+#ifdef __cplusplus
+}
+#endif
 #endif
